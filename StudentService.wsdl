@@ -1,0 +1,65 @@
+<wsdl:definitions name="StudentService"
+   targetNamespace="http://www.examples.com/wsdl/StudentService.wsdl"
+   xmlns="http://schemas.xmlsoap.org/wsdl/"
+   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+   xmlns:tns="http://www.examples.com/wsdl/StudentService.wsdl"
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+   <wsdl:message name="getStudentsRequest">
+    <wsdl:part name="name" type="xsd:string"/>
+   </wsdl:message>
+   
+   <wsdl:message name="getStudentsResponse">
+    <element name='item' type='xsd:array' maxOccurs='unbounded'/>
+   </wsdl:message>
+
+   <wsdl:message name="createStudentRequest">
+    <wsdl:part name="name" type="xsd:string"/>
+   </wsdl:message>
+   
+   <wsdl:message name="createStudentResponse">
+    <element name='student' type='xsd:object' maxOccurs='unbounded'/>
+   </wsdl:message>
+
+   <wsdl:portType name="Students_PortType">
+
+    <wsdl:operation name="getStudents">
+       <wsdl:input message="tns:getStudentsRequest"/>
+       <wsdl:output message="tns:getStudentsResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="createStudent">
+       <wsdl:input message="tns:createStudentRequest"/>
+       <wsdl:output message="tns:createStudentResponse"/>
+    </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="Students_Binding" type="tns:Students_PortType">
+   <soap:binding style="rpc"
+    transport="http://schemas.xmlsoap.org/soap/http"/>
+   <wsdl:operation name="getStudents">
+    <soap:operation soapAction="getStudents"/>
+    <wsdl:input>
+       <soap:body
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+        namespace="urn:examples:helloservice"
+        use="encoded"/>
+    </wsdl:input>
+    <wsdl:output>
+       <soap:body
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+        namespace="urn:examples:helloservice"
+        use="encoded"/>
+    </wsdl:output>
+   </wsdl:operation>
+   </wsdl:binding>
+
+   <wsdl:service name="Students_Service">
+    <wsdl:documentation>WSDL File for StudentsService</wsdl:documentation>
+    <wsdl:port binding="tns:Students_Binding" name="Students_Port">
+       <soap:address
+        location="http://localhost:8000/wsdl"/>
+    </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>
